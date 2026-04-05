@@ -397,8 +397,9 @@ INTERNAL GLenum get_base_buffer_enum(int buffer_index) {
 
 void glBindBuffer(GLenum buffer, GLuint name) {
     if(!current_context) return;
-    es3_functions.glBindBuffer(buffer, name);
     int buffer_index = get_buffer_index(buffer);
+    if(buffer_index != -1 && current_context->bound_buffers[buffer_index] == name) return; // No change
+    es3_functions.glBindBuffer(buffer, name);
     if(buffer_index == -1) return;
     current_context->bound_buffers[buffer_index] = name;
 }
