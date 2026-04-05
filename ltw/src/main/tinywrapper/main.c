@@ -149,6 +149,38 @@ void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat 
     es3_functions.glGetTexLevelParameterfv(target, level, pname, params);
 }
 
+void glActiveTexture(GLenum texture) {
+    if(!current_context) return;
+    GLint unit = texture - GL_TEXTURE0;
+    if(unit < 0 || unit >= MAX_TMUS) return;
+    if(current_context->active_texture_unit == unit) return; // No change
+    current_context->active_texture_unit = unit;
+    es3_functions.glActiveTexture(texture);
+}
+
+void glBindTexture(GLenum target, GLuint texture) {
+    if(!current_context) return;
+    GLint unit = current_context->active_texture_unit;
+    if(current_context->bound_textures[unit] == texture) return; // No change
+    current_context->bound_textures[unit] = texture;
+    es3_functions.glBindTexture(target, texture);
+}
+
+void glBindTextures(GLuint first, GLsizei count, const GLuint *textures) {
+    if(!current_context) return;
+    if(first + count > MAX_TMUS) count = MAX_TMUS - first;
+    for(GLsizei i = 0; i < count; i++) {
+        GLuint tex = textures ? textures[i] : 0;
+        if(current_context->bound_textures[first + i] != tex) {
+            current_context->bound_textures[first + i] = tex;
+            es3_functions.glActiveTexture(GL_TEXTURE0 + first + i);
+            es3_functions.glBindTexture(GL_TEXTURE_2D, tex); // Assume 2D, may need to handle target
+        }
+    }
+    // Restore active texture
+    es3_functions.glActiveTexture(GL_TEXTURE0 + current_context->active_texture_unit);
+}
+
 void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
     if(!current_context) return;
     if (isProxyTexture(target)) {
@@ -410,8 +442,9 @@ void glBindBufferRange(GLenum target, GLuint index, GLuint buffer, GLintptr offs
 
 void glUseProgram(GLuint program) {
     if(!current_context) return;
+    if(current_context->current_program == program) return; // No change
+    current_context->current_program = program;
     es3_functions.glUseProgram(program);
-    current_context->program = program;
 }
 
 void glGetIntegerv(GLenum pname, GLint* data) {

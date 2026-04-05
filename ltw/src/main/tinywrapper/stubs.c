@@ -355,12 +355,6 @@ void stub_glTexSubImage2D() {
     trigger_glTexSubImage2D = true;
     printf("Stub: glTexSubImage2D\n");
 }
-static bool trigger_glBindTexture = false;
-void stub_glBindTexture() {
-    if(trigger_glBindTexture) return;
-    trigger_glBindTexture = true;
-    printf("Stub: glBindTexture\n");
-}
 static bool trigger_glDeleteTextures = false;
 void stub_glDeleteTextures() {
     if(trigger_glDeleteTextures) return;
@@ -402,12 +396,6 @@ void stub_glCopyTexSubImage3D() {
     if(trigger_glCopyTexSubImage3D) return;
     trigger_glCopyTexSubImage3D = true;
     printf("Stub: glCopyTexSubImage3D\n");
-}
-static bool trigger_glActiveTexture = false;
-void stub_glActiveTexture() {
-    if(trigger_glActiveTexture) return;
-    trigger_glActiveTexture = true;
-    printf("Stub: glActiveTexture\n");
 }
 static bool trigger_glSampleCoverage = false;
 void stub_glSampleCoverage() {
@@ -834,12 +822,6 @@ void stub_glShaderSource() {
     if(trigger_glShaderSource) return;
     trigger_glShaderSource = true;
     printf("Stub: glShaderSource\n");
-}
-static bool trigger_glUseProgram = false;
-void stub_glUseProgram() {
-    if(trigger_glUseProgram) return;
-    trigger_glUseProgram = true;
-    printf("Stub: glUseProgram\n");
 }
 static bool trigger_glUniform1f = false;
 void stub_glUniform1f() {
@@ -1608,12 +1590,6 @@ void stub_glIsFramebuffer() {
     if(trigger_glIsFramebuffer) return;
     trigger_glIsFramebuffer = true;
     printf("Stub: glIsFramebuffer\n");
-}
-static bool trigger_glBindFramebuffer = false;
-void stub_glBindFramebuffer() {
-    if(trigger_glBindFramebuffer) return;
-    trigger_glBindFramebuffer = true;
-    printf("Stub: glBindFramebuffer\n");
 }
 static bool trigger_glDeleteFramebuffers = false;
 void stub_glDeleteFramebuffers() {
@@ -3240,12 +3216,6 @@ void stub_glBindBuffersRange() {
     if(trigger_glBindBuffersRange) return;
     trigger_glBindBuffersRange = true;
     printf("Stub: glBindBuffersRange\n");
-}
-static bool trigger_glBindTextures = false;
-void stub_glBindTextures() {
-    if(trigger_glBindTextures) return;
-    trigger_glBindTextures = true;
-    printf("Stub: glBindTextures\n");
 }
 static bool trigger_glBindSamplers = false;
 void stub_glBindSamplers() {

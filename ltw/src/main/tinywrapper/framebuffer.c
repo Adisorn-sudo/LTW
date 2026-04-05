@@ -285,16 +285,19 @@ void glDeleteFramebuffers(GLsizei n, const GLuint* framebuffers) {
 
 void glBindFramebuffer(GLenum target, GLuint framebuffer) {
     if(!current_context) return;
-    es3_functions.glBindFramebuffer(target, framebuffer);
     switch (target) {
         case GL_FRAMEBUFFER:
+            if(current_context->read_framebuffer == framebuffer && current_context->draw_framebuffer == framebuffer) return;
             current_context->read_framebuffer = current_context->draw_framebuffer = framebuffer;
             break;
         case GL_READ_FRAMEBUFFER:
+            if(current_context->read_framebuffer == framebuffer) return;
             current_context->read_framebuffer = framebuffer;
             break;
         case GL_DRAW_FRAMEBUFFER:
+            if(current_context->draw_framebuffer == framebuffer) return;
             current_context->draw_framebuffer = framebuffer;
             break;
     }
+    es3_functions.glBindFramebuffer(target, framebuffer);
 }

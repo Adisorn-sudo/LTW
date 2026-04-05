@@ -40,6 +40,10 @@ static bool init_context(context_t* tw_context) {
         if(!map) goto fail_dealloc;
         tw_context->bound_basebuffers[i] = map;
     }
+    // Initialize state tracking
+    memset(tw_context->bound_textures, 0, sizeof(tw_context->bound_textures));
+    tw_context->current_program = 0;
+    tw_context->active_texture_unit = 0;
     return true;
 
     fail_dealloc:

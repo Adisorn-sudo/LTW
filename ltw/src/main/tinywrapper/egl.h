@@ -84,7 +84,9 @@ typedef struct {
     int proxy_width, proxy_height, proxy_intformat, maxTextureSize;
     GLint max_drawbuffers;
     GLuint bound_buffers[MAX_BOUND_BUFFERS];
-    GLuint program;
+    GLuint bound_textures[MAX_TMUS];
+    GLuint current_program;
+    GLint active_texture_unit;
     GLuint draw_framebuffer;
     GLuint read_framebuffer;
     char* extensions_string;
